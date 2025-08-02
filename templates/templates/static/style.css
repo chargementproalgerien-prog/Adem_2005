@@ -1,0 +1,4 @@
+body { font-family: Arial; direction: rtl; margin: 20px; }
+h1, h2 { color: #333; }
+button { padding: 5px 10px; margin-top: 5px; }
+#chatReply, #uploadResult { margin-top: 10px; font-weight: bold; }
