@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <title>محرر APK ودردشة ذكية</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <h1>مرحباً بك في محرر APK</h1>
+    <form id="uploadForm" enctype="multipart/form-data">
+        <input type="file" name="apkfile" accept=".apk">
+        <button type="submit">رفع الملف</button>
+    </form>
+    <div id="uploadResult"></div>
+
+    <h2>دردشة ذكية</h2>
+    <input type="text" id="chatInput" placeholder="اكتب رسالتك">
+    <button id="sendBtn">إرسال</button>
+    <div id="chatReply"></div>
+
+    <script>
+        document.getElementById("uploadForm").onsubmit = async (e) => {
+            e.preventDefault();
+            let formData = new FormData(e.target);
+            let response = await fetch("/upload", { method: "POST", body: formData });
+            let data = await response.json();
+            document.getElementById("uploadResult").innerText = data.message || data.error;
+        };
+
+        document.getElementById("sendBtn").onclick = async () => {
+            let message = document.getElementById("chatInput").value;
+            let response = await fetch("/chat", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ message })
+            });
+            let data = await response.json();
+            document.getElementById("chatReply").innerText = data.reply;
+        };
+    </script>
+</body>
+</html>
